@@ -1,0 +1,47 @@
+<% layout("./layouts/layout.eta") %>
+
+<a href="/lists">Shopping lists</a>
+
+<h1><%= it.list.name %></h1>
+
+<h2>Add an item</h2>
+
+<form method="POST" action="/lists/<%= it.list.id %>/items">
+  Name: <input type="text" name="name" />
+  <input type="submit" value="Create item!" />
+</form>
+
+<h2>Existing items</h2>
+
+<table>
+<% if (it.currentItems) { %>
+  <% it.currentItems.forEach((item) => { %>
+    <tr>
+      <td>
+        <li>
+          <%= item.name %>
+        </li>
+      </td>
+      <td>
+          <form method="POST" action="/lists/<%= it.list.id %>/items/<%= item.id %>/collect">
+          <input type="submit" value="Mark collected!" />
+          </form>
+      </td>
+    </tr>
+<% }); %>
+<% }
+
+if (it.collectedItems) { %> 
+<% it.collectedItems.forEach((obj) => { %>
+  <tr>
+    <td>
+      <del>
+        <li>
+          <%= obj.name %>
+        </li>
+      </del>
+    </td>
+  </tr>
+<% }); %>
+<% } %>
+</table>
